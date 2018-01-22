@@ -1,4 +1,11 @@
 -- local url = require "net.url"
+local utils = require "kong.tools.utils"
+local responses = require "kong.tools.responses"
+local singletons = require "kong.singletons"
+local req_get_headers = ngx.req.get_headers
+
+local AUTHENTICATED_USERID = "authenticated_userid"
+
 
 local _M = {}
 
@@ -32,20 +39,20 @@ local _M = {}
 
 function _M.execute(config)
   -- local hostHeader = buildHostHeader(conf.replacement_url) 
+  userid = req_get_headers()["x-authenticated-userid"]
+  newHost = ""
   for rep, uriRole in ipairs(config.replace.uri) do 
+    
       elements = splitRole(uriRole,"|")
       uri = elements[1]
       replace = elements[2]
-      ngx.log(ngx.NOTICE,elements[1])
-      ngx.log(ngx.NOTICE,elements[2])
-    if(string.find(ngx.var.uri,uri)) then
-      ngx.log(ngx.NOTICE,"ok tem")
-    else
-      ngx.log(ngx.NOTICE,"nao tem")
+    if(string.find(ngx.var.uri,uri)) then     
+      newHost = string.gsub(ngx.var.uri,uri,userid,2)
+      ngx.log(ngx.NOTICE,newHost)
     end    
    end
 
-  -- ngx.var.upstream_uri = "/request"  
+  -- ngx.var.upstream_uri = "/request/" .. newHost  
 end
 
 function splitRole(source, delimiters)
