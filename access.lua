@@ -432,7 +432,7 @@ function _M.execute(conf)
   transform_method(conf)
   transform_body(conf)
   transform_headers(conf)
-  -- transform_querystrings(conf)
+  transform_querystrings(conf)
 end
 
 function splitRole(source, delimiters)
