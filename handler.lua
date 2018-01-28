@@ -1,16 +1,19 @@
 local BasePlugin = require "kong.plugins.base_plugin"
-local access = require "kong.plugins.myplugin.access"
-local DynamicUpstreamHandler = BasePlugin:extend()
+local access = require "kong.plugins.request-dynamic-transformer.access"
+local RequestDynamicTransformerHandler = BasePlugin:extend()
 
-DynamicUpstreamHandler.PRIORITY = 10
+RequestDynamicTransformerHandler.PRIORITY = 10
 
-function DynamicUpstreamHandler:new()
-  DynamicUpstreamHandler.super.new(self, "myplugin")
+function RequestDynamicTransformerHandler:new()
+  RequestDynamicTransformerHandler.super.new(self, "request-dynamic-transformer")
 end
 
-function DynamicUpstreamHandler:access(conf)
-  DynamicUpstreamHandler.super.access(self)
+function RequestDynamicTransformerHandler:access(conf)
+  RequestDynamicTransformerHandler.super.access(self)
   access.execute(conf)
 end
 
-return DynamicUpstreamHandler
+RequestDynamicTransformerHandler.PRIORITY = 801
+RequestDynamicTransformerHandler.VERSION = "0.1.0"
+
+return RequestDynamicTransformerHandler
