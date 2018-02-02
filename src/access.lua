@@ -1,4 +1,3 @@
--- local url = require "net.url"
 local utils = require "kong.tools.utils"
 local responses = require "kong.tools.responses"
 local singletons = require "kong.singletons"

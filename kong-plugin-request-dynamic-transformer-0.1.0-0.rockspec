@@ -8,14 +8,14 @@ description = {
   license = "Apache 2.0"
 }
 dependencies = {
-  "lua ~> 5.1",
-  "net-url ~> 0.9-1"
+  "lua ~> 5.1"
 }
+local pluginName = "request-dynamic-transformer"
 build = {
   type = "builtin",
   modules = {
-    ["kong.plugins.request-dynamic-transformer"] = "src/handler.lua",
-    ["kong.plugins.request-dynamic-transformer"] = "src/access.lua",
-    ["kong.plugins.request-dynamic-transformer"] = "src/schema.lua"
+    ["kong.plugins."..pluginName..".handler"] = "src/handler.lua",
+    ["kong.plugins."..pluginName..".schema"] = "src/schema.lua",
+    ["kong.plugins."..pluginName..".access"] = "src/access.lua",
   }
 }
